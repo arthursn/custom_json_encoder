@@ -67,7 +67,7 @@ class CustomJSONEncoder(JSONEncoder):
         if isinstance(o, Decimal):
             if self.float_num_sig_fig is not None:
                 return float(f"{o:.{self.float_num_sig_fig}g}")
-            return o
+            return float(o)
         if isinstance(o, Enum):
             return o.value
         # Not serializable
