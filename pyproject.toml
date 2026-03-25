@@ -1,0 +1,21 @@
+[project]
+name = "custom-json-encoder"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=2.4.3",
+    "pandas>=3.0.1",
+    "pydantic>=2.12.5",
+    "rich>=14.3.3",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+only-packages = false
+sources = ["src"]
+include = ["custom_json_encoder.py"]
