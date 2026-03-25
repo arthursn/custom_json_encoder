@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from decimal import Decimal
 from enum import Enum
 from fnmatch import fnmatch
@@ -10,7 +12,7 @@ import pandas as pd
 
 class CustomJSONEncoder(JSONEncoder):
     # Number of significant figures
-    float_num_sig_fig: int = 3
+    float_num_sig_fig: int | None = 3
     on_error: Literal[
         "raise",
         "object",
@@ -36,9 +38,9 @@ class CustomJSONEncoder(JSONEncoder):
         if isinstance(o, pd.DataFrame):
             return cls.make_serializable(o.to_dict())
         if hasattr(o, "__swig_destroy__"):
-            # If swig object
+            # If SWIG object
             if hasattr(o, "__getitem__") and hasattr(o, "__len__"):
-                # If stl container
+                # If STL container
                 if hasattr(o, "__setitem__"):
                     # If mutable
                     if hasattr(o, "keys") and hasattr(o, "values"):
@@ -63,7 +65,9 @@ class CustomJSONEncoder(JSONEncoder):
 
     def default(self, o):
         if isinstance(o, Decimal):
-            return float(f"{o:.{self.float_num_sig_fig}g}")
+            if self.float_num_sig_fig is not None:
+                return float(f"{o:.{self.float_num_sig_fig}g}")
+            return o
         if isinstance(o, Enum):
             return o.value
         # Not serializable
