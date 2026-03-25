@@ -44,3 +44,7 @@ Output:
   }
 }
 ```
+
+## Examples
+
+Check out the `examples` directory for a complete example showing how to use the custom JSON encoder with SWIG-wrapped C++ objects. The example demonstrates serializing various C++ STL containers and custom classes.
