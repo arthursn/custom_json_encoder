@@ -9,52 +9,51 @@ from custom_json_encoder import CustomJSONEncoder
 CustomJSONEncoder.on_error = "object"
 
 
-def json_dumps(o):
-    return json.dumps(o, cls=CustomJSONEncoder, indent=4)
+def print_json(o):
+    print(json.dumps(o, cls=CustomJSONEncoder, indent=2))
 
 
 class PydanticModel(BaseModel):
     string_int_map: swigtest.StringIntMap
     test_class: swigtest.TestClass
+
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
-print("=== Testing vector ===")
+print("=== Vector ===")
 int_vector = swigtest.createIntVector(5)
-print(json_dumps(int_vector))
+print_json(int_vector)
 print()
 
-print("=== Testing map ===")
+print("=== Map ===")
 string_int_map = swigtest.createStringIntMap()
-print(json_dumps(string_int_map))
+print_json(string_int_map)
 print()
 
-print("=== Testing unordered_map ===")
+print("=== Unordered map ===")
 unordered_map = swigtest.createStringIntUnorderedMap()
-print(json_dumps(unordered_map))
+print_json(unordered_map)
 print()
 
-print("=== Testing array ===")
+print("=== Array ===")
 int_array = swigtest.createIntArray3()
-print(json_dumps(int_array))
+print_json(int_array)
 print()
 
-print("=== Testing pair ===")
+print("=== Pair ===")
 pair = swigtest.createIntDoublePair(10, 20.5)
-print(json_dumps(pair))
+print_json(pair)
 print()
 
-print("=== Testing regular class ===")
+print("=== Wrapped class ===")
 test_class = swigtest.TestClass()
-print(json_dumps(test_class))
+print_json(test_class)
 print()
 
-print("=== Testing pydantic model ===")
-print(
-    json_dumps(
-        PydanticModel(
-            string_int_map=swigtest.createStringIntMap(),
-            test_class=swigtest.TestClass(),
-        ).model_dump()
-    )
+print("=== Pydantic model ===")
+print_json(
+    PydanticModel(
+        string_int_map=swigtest.createStringIntMap(),
+        test_class=swigtest.TestClass(),
+    ).model_dump()
 )
